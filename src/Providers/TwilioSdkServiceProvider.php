@@ -2,9 +2,10 @@
 
 namespace Innoboxrr\TwilioSdk\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use Innoboxrr\TwilioSdk\Twilio\WhatsApp;
 use Innoboxrr\TwilioSdk\Twilio\Sms;
-use Illuminate\Support\ServiceProvider;
+use Innoboxrr\TwilioSdk\Twilio\Rooms;
 
 class TwilioSdkServiceProvider extends ServiceProvider
 {
@@ -50,6 +51,32 @@ class TwilioSdkServiceProvider extends ServiceProvider
             } else {
                 
                 return new Sms();
+
+            }
+        
+        });
+
+        $this->app->bind(Rooms::class, function($app) {
+
+            if(
+                !is_null(env('TWILIO_SID')) && 
+                !is_null(env('TWILIO_TOKEN')) && 
+                !is_null(env('TWILIO_API_KEY')) && 
+                !is_null(env('TWILIO_API_SECRET'))
+            ) {
+
+                $whatsApp = new Rooms();
+
+                return $whatsApp->init([
+                    'sid' => env('TWILIO_SID'), 
+                    'token' => env('TWILIO_TOKEN'),
+                    'apiKey' => env('TWILIO_API_KEY'),
+                    'apiSecret' => env('TWILIO_API_SECRET')
+                ]);
+
+            } else {
+                
+                return new Rooms();
 
             }
         
