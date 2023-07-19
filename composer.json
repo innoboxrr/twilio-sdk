@@ -1,13 +1,12 @@
 {
     "name": "innoboxrr/twilio-sdk",
-    "version": "1.0.0",
     "description": "Twilio package",
     "keywords": [
         "innoboxrr",
         "twilio-sdk"
     ],
     "homepage": "https://github.com/innoboxrr/twilio-sdk",
-    "license": "The Unlicense",
+    "license": "MIT",
     "type": "library",
     "authors": [
         {
