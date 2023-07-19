@@ -65,9 +65,9 @@ class TwilioSdkServiceProvider extends ServiceProvider
                 !is_null(env('TWILIO_API_SECRET'))
             ) {
 
-                $whatsApp = new Rooms();
+                $rooms = new Rooms();
 
-                return $whatsApp->init([
+                return $rooms->init([
                     'sid' => env('TWILIO_SID'), 
                     'token' => env('TWILIO_TOKEN'),
                     'apiKey' => env('TWILIO_API_KEY'),
