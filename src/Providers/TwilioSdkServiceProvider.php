@@ -15,7 +15,10 @@ class TwilioSdkServiceProvider extends ServiceProvider
         
         if ($this->app->runningInConsole()) {
             
-            
+            $this->publishes([
+                __DIR__.'/../../config/twilio-sdk.php' => config_path('twilio-sdk.php'),
+            ], 'config');
+
         }
 
     }
@@ -23,13 +26,15 @@ class TwilioSdkServiceProvider extends ServiceProvider
     public function register()
     {
 
+        $this->mergeConfigFrom(__DIR__.'/../../config/twilio-sdk.php', 'twilio-sdk');
+
         $this->app->bind(WhatsApp::class, function($app) {
 
-            if(!is_null(env('TWILIO_SID')) && !is_null(env('TWILIO_TOKEN'))) {
+            if(!is_null(config('twilio-sdk.twilio-sid')) && !is_null(config('twilio-sdk.twilio-token'))) {
 
                 $whatsApp = new WhatsApp();
 
-                return $whatsApp->init(['sid' => env('TWILIO_SID'), 'token' => env('TWILIO_TOKEN')]);
+                return $whatsApp->init(['sid' => config('twilio-sdk.twilio-sid'), 'token' => config('twilio-sdk.twilio-token')]);
 
             } else {
                 
@@ -42,11 +47,11 @@ class TwilioSdkServiceProvider extends ServiceProvider
 
         $this->app->bind(Sms::class, function($app) {
 
-            if(!is_null(env('TWILIO_SID')) && !is_null(env('TWILIO_TOKEN'))) {
+            if(!is_null(config('twilio-sdk.twilio-sid')) && !is_null(config('twilio-sdk.twilio-token'))) {
 
                 $whatsApp = new Sms();
 
-                return $whatsApp->init(['sid' => env('TWILIO_SID'), 'token' => env('TWILIO_TOKEN')]);
+                return $whatsApp->init(['sid' => config('twilio-sdk.twilio-sid'), 'token' => config('twilio-sdk.twilio-token')]);
 
             } else {
                 
@@ -59,19 +64,19 @@ class TwilioSdkServiceProvider extends ServiceProvider
         $this->app->bind(Rooms::class, function($app) {
 
             if(
-                !is_null(env('TWILIO_SID')) && 
-                !is_null(env('TWILIO_TOKEN')) && 
-                !is_null(env('TWILIO_API_KEY')) && 
-                !is_null(env('TWILIO_API_SECRET'))
+                !is_null(config('twilio-sdk.twilio-sid')) && 
+                !is_null(config('twilio-sdk.twilio-token')) && 
+                !is_null(config('twilio-sdk.twilio-api-key')) && 
+                !is_null(config('twilio-sdk.twilio-api-secret'))
             ) {
 
                 $rooms = new Rooms();
 
                 return $rooms->init([
-                    'sid' => env('TWILIO_SID'), 
-                    'token' => env('TWILIO_TOKEN'),
-                    'apiKey' => env('TWILIO_API_KEY'),
-                    'apiSecret' => env('TWILIO_API_SECRET')
+                    'sid' => config('twilio-sdk.twilio-sid'), 
+                    'token' => config('twilio-sdk.twilio-token'),
+                    'apiKey' => config('twilio-sdk.twilio-api-key'),
+                    'apiSecret' => config('twilio-sdk.twilio-api-secret')
                 ]);
 
             } else {
