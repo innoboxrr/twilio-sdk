@@ -81,10 +81,11 @@ class Authorization
      * @param string $name El nombre asociado a las nuevas credenciales.
      * @return mixed Las nuevas credenciales API generadas.
      */
-    private function createApiKeys($name) 
+    public static function createApiKeys($sid, $token, $name) 
     {
+        $client = new Client($sid, $token);
         
-        return $this->client->newKeys->create(["friendlyName" => $name]);
+        return $client->newKeys->create(["friendlyName" => $name]);
 
     }
 
