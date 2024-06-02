@@ -7,10 +7,10 @@ use Innoboxrr\TwilioSdk\Contracts\WhatsAppMessageSender;
 
 class WhatsApp extends Authorization implements WhatsAppMessageSender
 {
-
     protected $fromNumber;
     protected $toNumber;
     protected $message;
+    protected $mediaUrl;
 
     // Bandera para verificar si los métodos han sido llamados
     protected $fromCalled = false;
@@ -41,6 +41,13 @@ class WhatsApp extends Authorization implements WhatsAppMessageSender
         return $this;
     }
 
+    public function mediaUrl(string $mediaUrl) : self
+    {
+        $this->mediaUrl = $mediaUrl;
+
+        return $this;
+    }
+
     public function sendMessage(): bool
     {
         if (!$this->fromCalled || !$this->toCalled || !$this->messageCalled) {
@@ -49,12 +56,18 @@ class WhatsApp extends Authorization implements WhatsAppMessageSender
 
         $this->checkEnv();
 
+        $params = [
+            'from' => 'whatsapp:' . $this->fromNumber,
+            'body' => $this->message,
+        ];
+
+        if ($this->mediaUrl) {
+            $params['mediaUrl'] = [$this->mediaUrl];
+        }
+
         $message = $this->client->messages->create(
             'whatsapp:' . $this->toNumber,
-            [
-                'from' => 'whatsapp:' . $this->fromNumber,
-                'body' => $this->message,
-            ]
+            $params
         );
 
         return $message->sid !== null;
