@@ -2,6 +2,8 @@
 
 namespace Innoboxrr\TwilioSdk\Contracts;
 
+// DEPRECATED
+
 interface RoomsInterface
 {
     /**

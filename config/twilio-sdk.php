@@ -12,5 +12,7 @@ return [
 	'twilio-api-key' => env('TWILIO_API_KEY'),
 	
 	'twilio-api-secret' => env('TWILIO_API_SECRET'),
+
+	'whatsapp' => '+521234567890'
 	
 ];

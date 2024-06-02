@@ -2,6 +2,8 @@
 
 namespace Innoboxrr\TwilioSdk\Facades;
 
+// dEPRECATED
+
 use Illuminate\Support\Facades\Facade;
 use Innoboxrr\TwilioSdk\Twilio\Rooms as RoomsClass;
 

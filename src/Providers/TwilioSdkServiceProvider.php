@@ -34,7 +34,15 @@ class TwilioSdkServiceProvider extends ServiceProvider
 
                 $whatsApp = new WhatsApp();
 
-                return $whatsApp->init(['sid' => config('twilio-sdk.twilio-sid'), 'token' => config('twilio-sdk.twilio-token')]);
+                $initWhatsApp = $whatsApp->init(['sid' => config('twilio-sdk.twilio-sid'), 'token' => config('twilio-sdk.twilio-token')]);
+
+                if(!is_null(config('twilio-sdk.whatsapp'))) {
+
+                    return $initWhatsApp->from(config('twilio-sdk.whatsapp'));
+
+                }
+
+                return $initWhatsApp;
 
             } else {
                 
